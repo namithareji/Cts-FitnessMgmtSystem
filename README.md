@@ -27,8 +27,8 @@ Cancel a class: Remove a class from the system.
 
 Prerequisites
 
-Java Development Kit (JDK)
-MySQL Server
-Eclipse IDE (or any Java IDE)
-MySQL Workbench (or any MySQL GUI tool)
+Java Development Kit (JDK), 
+MySQL Server, 
+Eclipse IDE (or any Java IDE), 
+MySQL Workbench (or any MySQL GUI tool), 
 MySQL JDBC Driver (Connector/J)
