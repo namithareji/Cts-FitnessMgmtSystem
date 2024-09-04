@@ -1,16 +1,17 @@
 package main;
 import com.fitness.dao.*;
 import com.fitness.exception.MemberNotFoundException;
+import com.fitness.exception.TrainerNotFoundException;
 //import com.TrainerDAO;
 //import com.ClassDAO;
 import com.fitness.model.*;
 //import com.model.Member;
 //import com.model.Trainer;
-import java.util.InputMismatchException;
+//import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-  public static void main(String[] args) throws MemberNotFoundException {
+  public static void main(String[] args) throws MemberNotFoundException, TrainerNotFoundException {
       Scanner scanner = new Scanner(System.in);
       MemberDAO memberDAO = new MemberDAO();
       TrainerDAO trainerDAO = new TrainerDAO();
@@ -72,7 +73,24 @@ public class Main {
               break;
           case 2:
               // View member details
-              System.out.println("Enter member ID:");
+//              System.out.println("Enter member ID:");
+//              int memberId = scanner.nextInt();
+//              Member member = memberDAO.viewMember(memberId);
+//              if (member != null) {
+//                  System.out.println("Member ID: " + member.getMemberId());
+//                  System.out.println("Name: " + member.getName());
+//                  System.out.println("Email: " + member.getEmail());
+//                  System.out.println("Phone: " + member.getPhoneNumber());
+//                  System.out.println("Membership Type: " + member.getMembershipType());
+//             } 
+//                 // else {
+////                  System.out.println("Member not found.");
+////              }
+//                	  else {
+//                          throw new MemberNotFoundException("Member with ID " + memberId + " not found.");
+//                      }
+        	  try {
+        	  System.out.println("Enter member ID:");
               int memberId = scanner.nextInt();
               Member member = memberDAO.viewMember(memberId);
               if (member != null) {
@@ -82,18 +100,19 @@ public class Main {
                   System.out.println("Phone: " + member.getPhoneNumber());
                   System.out.println("Membership Type: " + member.getMembershipType());
              } 
+        	  }
                  // else {
 //                  System.out.println("Member not found.");
 //              }
-                	  else {
-                          throw new MemberNotFoundException("Member with ID " + memberId + " not found.");
-                      }
+                	  catch(MemberNotFoundException e) {
+                		    System.out.println ("Error: " + e.getMessage() + ". Please try again with a valid Member ID.");  // This prints only the message
+                	  }
               break;
           case 3:
               // Update member information
               System.out.println("Enter member ID:");
-              memberId = scanner.nextInt();
-              member = memberDAO.viewMember(memberId);
+              int memberId = scanner.nextInt();
+              Member member = memberDAO.viewMember(memberId);
               if (member != null) {
                   System.out.println("Enter new name:");
                   name = scanner.next();
@@ -129,7 +148,7 @@ public class Main {
 
   
   // Trainer Management Menu
-  private static void trainerMenu(Scanner scanner, TrainerDAO trainerDAO) {
+  private static void trainerMenu(Scanner scanner, TrainerDAO trainerDAO) throws TrainerNotFoundException {
       while (true) {
     	  System.out.println();
           System.out.println("Trainer Management Menu");
@@ -158,6 +177,7 @@ public class Main {
                   break;
               case 2:
                   // View trainer details
+              try {
               System.out.println("Enter trainer ID:");
               int trainerId = scanner.nextInt();
               Trainer trainer = trainerDAO.viewTrainer(trainerId);
@@ -167,15 +187,20 @@ public class Main {
                   System.out.println("Email: " + trainer.getEmail());
                   System.out.println("Phone: " + trainer.getPhoneNumber());
                   System.out.println("Specialization: " + trainer.getSpecialization());
-              } else {
-                  System.out.println("Trainer not found.");
+              } 
               }
+              catch(TrainerNotFoundException e) {
+      		    System.out.println ("Error: " + e.getMessage() + ". Please try again with a valid Trainer ID.");  // This prints only the message
+      	  }
+//              else {
+//                  System.out.println("Trainer not found.");
+//              }
               break;
               case 3:
                   // Update trainer information
               System.out.println("Enter trainer ID:");
-              trainerId = scanner.nextInt();
-              trainer = trainerDAO.viewTrainer(trainerId);
+              int trainerId = scanner.nextInt();
+              Trainer trainer = trainerDAO.viewTrainer(trainerId);
               if (trainer != null) {
                   System.out.println("Enter new name:");
                   name = scanner.next();

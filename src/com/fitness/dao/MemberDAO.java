@@ -3,16 +3,12 @@ package com.fitness.dao;
 import com.fitness.exception.MemberNotFoundException;
 import com.fitness.model.Member;
 
+import util.DBConnection;
 import java.sql.*;
-
-
 import java.sql.Connection;
-import java.sql.DriverManager;
+//import java.sql.DriverManager;
 import java.sql.SQLException;
-
-
 public class MemberDAO {
-
 	
 	
     public void registerMember(Member member) {
@@ -29,7 +25,7 @@ public class MemberDAO {
         }
     }
 
-    public Member viewMember(int memberId) {
+    public Member viewMember(int memberId)throws MemberNotFoundException {
         Member member = null;
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "SELECT * FROM Member WHERE member_id = ?";
@@ -45,6 +41,9 @@ public class MemberDAO {
                     rs.getString("phone_number"),
                     rs.getString("membership_type")
                 );
+            }
+            else {
+                throw new MemberNotFoundException("No member found with ID: " + memberId);
             }
         } 
         catch (SQLException e) {

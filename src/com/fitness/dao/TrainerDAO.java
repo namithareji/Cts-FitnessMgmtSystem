@@ -6,7 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+
+import com.fitness.exception.TrainerNotFoundException;
 import com.fitness.model.*;
+
+import util.DBConnection;
 
 public class TrainerDAO {
 
@@ -26,7 +31,7 @@ public class TrainerDAO {
     }
 
     // Method to view trainer details
-    public Trainer viewTrainer(int trainerId) {
+    public Trainer viewTrainer(int trainerId)throws TrainerNotFoundException {
         Trainer trainer = null;
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "SELECT * FROM Trainer WHERE trainer_id = ?";
@@ -42,6 +47,9 @@ public class TrainerDAO {
                     rs.getString("phone_number"),
                     rs.getString("specialization")
                 );
+            }
+            else {
+                throw new TrainerNotFoundException("No trainer found with ID: " + trainerId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
